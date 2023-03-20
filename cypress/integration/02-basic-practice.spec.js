@@ -70,12 +70,21 @@ describe('Basic Practice', () => {
   });
 
   describe('Mark all as unpacked', () => {
-    it('should empty out the "Packed" list', () => {});
-
-    it('should empty have all of the items in the "Unpacked" list', () => {});
+    it('should empty out the "Packed" list', () => {
+      cy.get('[data-test="mark-all-as-unpacked"]').click()
+      cy.get('[data-test=items-packed] li').should('have.length', 0)
+    });
+    it('should empty have all of the items in the "Unpacked" list', () => {
+      cy.get('[data-test="mark-all-as-unpacked"]').click()
+      cy.get('[data-test=items-unpacked]').contains('Hoodie')
+    });
   });
 
   describe('Mark individual item as packed', () => {
-    it('should move an individual item from "Unpacked" to "Packed"', () => {});
+    it('should move an individual item from "Unpacked" to "Packed"', () => {
+      cy.get('[data-test=items-unpacked]').contains('Deoderant').click()
+      cy.get('[data-test=items-unpacked]').should('not.contain', 'Deoderant')
+      cy.get('[data-test=items-packed]').contains('Deoderant')
+    });
   });
 });
