@@ -28,9 +28,25 @@ describe('Basic Practice', () => {
   });
 
   describe('Filtering items', () => {
-    it('should show items that match whatever is in the filter field', () => {});
+    const item = 'Good attitude'
 
-    it('should hide items that do not match whatever is in the filter field', () => {});
+    it('should show items that match whatever is in the filter field', () => {
+      cy.get('[data-test="new-item-input"]').type(item)
+      cy.get('[data-test="add-item"]').click()
+      cy.get('[data-test="filter-items"]').type(item)
+      cy.get('[data-test="items"] li').each(($item) => {
+        expect($item.text()).to.include(item)
+      });
+    });
+
+    it('should hide items that do not match whatever is in the filter field', () => {
+      cy.get('[data-test="new-item-input"]').type(item)
+      cy.get('[data-test="add-item"]').click()
+      cy.get('[data-test="new-item-input"]').type('other stuff')
+      cy.get('[data-test="add-item"]').click()
+      cy.get('[data-test="filter-items"]').type(item)
+      cy.get('[data-test="items-unpacked"]').should('not.contain', 'stuff');
+    });
   });
 
   describe('Removing items', () => {
