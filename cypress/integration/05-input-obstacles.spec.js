@@ -1,3 +1,5 @@
+var converter = require('color-convert')
+
 /// <reference types="cypress" />
 
 describe('Input obstacles', () => {
@@ -13,24 +15,45 @@ describe('Input obstacles', () => {
   });
 
   it('should control a select input', () => {
-    cy.get('[data-test="select-input"]');
-    cy.get('[data-test="select-result"]');
+    cy.get('[data-test="select-input"]').select(5);
+    cy.get('[data-test="select-result"]').contains('Hawkeye');
   });
 
   it('should find and control a checkbox input', () => {
-    cy.get('[data-test="checkbox-tomato"]');
+    cy.get('[data-test="checkbox-tomato"]').as('tomatoCheckbox');
     cy.get('[data-test="checkbox-result"]').contains('(None)');
-    cy.get('[data-test="checkbox-result"]');
+    cy.get('@tomatoCheckbox').check()
+
+    cy.get('.grid > :nth-child(5)').find('input[type="checkbox"]').as('checkboxInputs')
+    cy.get('@checkboxInputs').check()
+    cy.get('[data-test="checkbox-result"]').contains('Lettuce, Tomato, Onion, Sardines');
+
+    cy.get('@checkboxInputs').uncheck()
+    cy.get('[data-test="checkbox-result"]').contains('(None)');
+
   });
 
   it('should find and control a radio input', () => {
-    cy.get('[data-test="radio-ringo"]');
-    cy.get('[data-test="radio-result"]');
+    cy.get('[data-test="radio-ringo"]').check();
+    cy.get('[data-test="radio-result"]').contains('Ringo');
+
+    cy.get('[data-test="radio-paul"]').check();
+    cy.get('[data-test="radio-result"]').contains('Paul');
+
+    cy.get('[data-test="radio-john"]').check();
+    cy.get('[data-test="radio-result"]').contains('John');
+
+    cy.get('[data-test="radio-george"]').check();
+    cy.get('[data-test="radio-result"]').contains('George');
   });
 
-  it('should find and control a color input', () => {
-    cy.get('[data-test="color-input"]');
-    cy.get('[data-test="color-result"]');
+  it.only('should find and control a color input', () => {
+    cy.get('[data-test="color-input"]').invoke('val', '#edd400').trigger('input');
+    cy.get('[data-test="color-result"]').contains('#edd400');
+
+    cy.get('[data-test="color-container"]').invoke('attr', 'style').then((color) => {
+      cy.log(color)
+    })
   });
 
   it('should find and control a date input', () => {

@@ -9,7 +9,7 @@ describe('Secret Menu Items', () => {
   });
 
   it.only('should set the range and verify it', () => {
-    cy.get('@rating-filter').invoke('val', 7)
+    cy.get('@rating-filter').invoke('val', 7).trigger('change')
     //scy.get('@rating-filter').should('have.value', 7);
   });
 
