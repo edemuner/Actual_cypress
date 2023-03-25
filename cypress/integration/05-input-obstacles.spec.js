@@ -1,4 +1,3 @@
-var converter = require('color-convert')
 
 /// <reference types="cypress" />
 
@@ -48,12 +47,33 @@ describe('Input obstacles', () => {
   });
 
   it.only('should find and control a color input', () => {
-    cy.get('[data-test="color-input"]').invoke('val', '#edd400').trigger('input');
-    cy.get('[data-test="color-result"]').contains('#edd400');
+    const inputColor = '#edd400'
 
-    cy.get('[data-test="color-container"]').invoke('attr', 'style').then((color) => {
-      cy.log(color)
-    })
+    cy.get('[data-test="color-input"]').invoke('val', inputColor).trigger('input');
+    cy.get('[data-test="color-result"]').contains(inputColor);
+
+    // triggeing the input so color-container gets to the desired color
+    cy.get('[data-test="color-input"]').invoke('val', inputColor).trigger('input');
+    // accessing and converting the value inside color-container
+    cy.get('[data-test="color-container"]')
+    .invoke('attr', 'style')
+    .then((color) => {
+      const regex = /\d+/g
+      const rgb = color.match(regex)
+      const hexColor =  rgb.map((x) => {
+           return parseInt(x).toString(16).padEnd(2, '0')
+        }).join('')
+        expect('#' + hexColor).to.equal(inputColor)
+      })
+
+        //asserting on the value when ready (where/when/how do I chain it?)
+        //cy.wrap(hexColor).should('equal', inputColor)
+        //cy.log(hexColor)
+      
+      
+      
+   
+    //.should('equal', '#edd400')
   });
 
   it('should find and control a date input', () => {
