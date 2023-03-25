@@ -46,7 +46,7 @@ describe('Input obstacles', () => {
     cy.get('[data-test="radio-result"]').contains('George');
   });
 
-  it.only('should find and control a color input', () => {
+  it('should find and control a color input', () => {
     const inputColor = '#edd400'
 
     cy.get('[data-test="color-input"]').invoke('val', inputColor).trigger('input');
@@ -66,19 +66,12 @@ describe('Input obstacles', () => {
         expect('#' + hexColor).to.equal(inputColor)
       })
 
-        //asserting on the value when ready (where/when/how do I chain it?)
-        //cy.wrap(hexColor).should('equal', inputColor)
-        //cy.log(hexColor)
-      
-      
-      
-   
-    //.should('equal', '#edd400')
   });
 
-  it('should find and control a date input', () => {
-    cy.get('[data-test="date-input"]');
-    cy.get('[data-test="date-result"]');
+  it.only('should find and control a date input', () => {
+    const date = '2023-03-25'
+    cy.get('[data-test="date-input"]').type(date);
+    cy.get('[data-test="date-result"]').contains(date);
   });
 
   it('should find and control a range input', () => {
