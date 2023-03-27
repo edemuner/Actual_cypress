@@ -68,19 +68,19 @@ describe('Input obstacles', () => {
 
   });
 
-  it.only('should find and control a date input', () => {
+  it('should find and control a date input', () => {
     const date = '2023-03-25'
     cy.get('[data-test="date-input"]').type(date);
     cy.get('[data-test="date-result"]').contains(date);
   });
 
-  it('should find and control a range input', () => {
-    cy.get('[data-test="range-input"]');
-    cy.get('[data-test="range-result"]');
+  it.only('should find and control a range input', () => {
+    cy.get('[data-test="range-input"]').invoke('val', 6).trigger('input');
+    cy.get('[data-test="range-result"]').contains(6);
   });
 
   it('should find and control a file input', () => {
-    cy.get('[data-test="file-input"]');
-    cy.get('[data-test="file-result"]');
-  });
+    cy.get('[data-test="file-input]');
+    cy.get('[data-test="file-result]');
 });
+})
