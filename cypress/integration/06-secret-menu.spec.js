@@ -46,8 +46,17 @@ describe('Secret Menu Items', () => {
     })
 
     it('should hide the column if unchecked', () => {
-      cy.get(`#show-${property}`).uncheck();
+      cy.get(`#show-${property}`).uncheck().debug();
       cy.get(`#${property}-column`).should('be.hidden');
+    })
+  }
+
+  for (const restaurant of restaurants){
+    it('should only exhibit selected restaurant', () => {
+      cy.get('#restaurant-visibility-filter').select(restaurant)
+      cy.get('table tbody tr').each(($row) => {
+        cy.wrap($row).find('td').eq(0).should('contain', restaurant)
+      })
     })
   }
 });
