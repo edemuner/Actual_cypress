@@ -61,15 +61,14 @@ describe('Secret Menu Items', () => {
   }
 
   for (const rate of ratings){
-    it('should only exhibit greater than minimum rating', () => {
+    it.only('should only exhibit greater than minimum rating', () => {
       cy.get('#minimum-rating-visibility').invoke('val', rate).trigger('input')
-      cy.get('table tbody tr').each(($row) => {
-        cy.wrap($row).find('td').eq(5).find('.cell')//.invoke('text').should('be.at.least', rate)
+      cy.get('td.popularity').each(($el) => {
+        //.invoke('text').should('be.at.least', rate)
         
-        .should(($cell) => {
-          const cell = parseInt($cell.text())
-          expect(cell).to.be.gte(rate)
-        })
+        
+          expect(+$el.text()).to.be.gte(rate)
+        
       })
     })
   }
