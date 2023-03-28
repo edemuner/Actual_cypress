@@ -61,7 +61,7 @@ describe('Secret Menu Items', () => {
   }
 
   for (const rate of ratings){
-    it.only('should only exhibit greater than minimum rating', () => {
+    it('should only exhibit greater than minimum rating', () => {
       cy.get('#minimum-rating-visibility').invoke('val', rate).trigger('input')
       cy.get('td.popularity').each(($el) => {
         //.invoke('text').should('be.at.least', rate)
