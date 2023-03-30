@@ -25,6 +25,10 @@ describe('Sign Up', () => {
   const invalidInput = "not-an-email"
   const password = 'myPassword'
   const validEmail = 'myEmail@server.com'
+  const user = {
+    'email': `${Date.now()}@email.com`,
+    'password': 'myPassword'
+  }
 
 
   beforeEach(() => {
@@ -32,6 +36,7 @@ describe('Sign Up', () => {
     cy.get('[data-test="sign-up-submit"]').as('submit')
     cy.get('[data-test="sign-up-email"]').as('signupEmail')
     cy.get('[data-test="sign-up-password"]').as('signupPassword')
+   
   });
 
   it('should require an email', () => {
@@ -80,4 +85,19 @@ describe('Sign Up', () => {
       .its('valueMissing')
       .should('be.true')
   });
+
+  it('should successfully create a user when entering an email and a password', () => {
+
+    cy.get('@signupEmail').type(user.email)
+    cy.get('@signupPassword').type(user.password)
+    cy.get('@submit').click()
+
+    cy.visit('/echo-chamber/sign-in')
+    cy.get('[data-test="sign-in-email"]').as('signinEmail').type(user.email)
+    cy.get('[data-test="sign-in-password"]').as('signinPassword').type(user.password)
+    cy.get('[data-test="sign-in-submit"]').as('signinSubmit').click()
+
+    cy.location('pathname').should('equal', '/echo-chamber/posts')
+    cy.contains('Signed in as ' + user.email)
+  })
 });
