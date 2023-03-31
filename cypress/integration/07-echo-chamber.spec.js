@@ -87,7 +87,7 @@ describe('Sign Up', () => {
   });
 
   it('should successfully create a user when entering an email and a password', () => {
-
+    // this is the n00b way to odo it
     cy.get('@signupEmail').type(user.email)
     cy.get('@signupPassword').type(user.password)
     cy.get('@submit').click()
