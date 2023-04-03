@@ -46,6 +46,6 @@ describe('Sign Up', () => {
     cy.get('[data-test="sign-up-email"]').type(user.email);
     cy.get('[data-test="sign-up-password"]').type(user.password);
     cy.get('[data-test="sign-up-submit"]').click();
-    cy.get('p').should('contain', 'A user already exists with that email.')
+    cy.get('p').should('contain', 'A user already exists with that email.').log()
   })
 });
