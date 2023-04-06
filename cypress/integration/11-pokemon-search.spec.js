@@ -37,7 +37,14 @@ describe('Pokémon Search', () => {
     cy.wait('@api').its('request.url').should('contain', '?name=char');
   });
 
-  it('should render the results to the page', () => {});
+  it('should render the results to the page', () => {
+    cy.intercept('/pokemon-search/api?*', { pokemon }).as('stubbed');
+    cy.get('@search').type('ivy');
+
+    cy.intercept('/pokemon-search/api/1', { fixture: 'bulbasaur' }).as('bulba-fixture');
+    cy.get('[data-test="results"] a').first().click();
+
+  });
 
   it('should link to the correct pokémon', () => {});
 
