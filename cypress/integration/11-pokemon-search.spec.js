@@ -46,7 +46,17 @@ describe('Pokémon Search', () => {
 
   });
 
-  it('should link to the correct pokémon', () => {});
+  it.only('should link to the correct pokémon', () => {
+    cy.intercept('/pokemon-search/api/1').as('bulba-details')
+    cy.get('@search').type('bulba');
+    cy.get('[data-test="results"] a').as('result').invoke('text').should('equal', 'Bulbasaur');
+    cy.get('@result').click()
+
+    
+    cy.fixture('bulbasaur').then((bulbasaur) => {
+      cy.wait('@bulba-details').its('response.body').should('deep.equal', bulbasaur)
+    })
+  });
 
   it('should persist the query parameter in the link to a pokémon', () => {});
 
