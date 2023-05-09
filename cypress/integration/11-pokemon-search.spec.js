@@ -38,15 +38,18 @@ describe('Pokémon Search', () => {
   });
 
   it('should render the results to the page', () => {
-    cy.intercept('/pokemon-search/api?*', { pokemon }).as('stubbed');
-    cy.get('@search').type('ivy');
+    // cy.intercept('/pokemon-search/api?*', { pokemon }).as('stubbed');
+    // cy.get('@search').type('ivy');
+    // cy.wait('@stubbed');
+    // cy.get('[data-test="result"]').should('have.length', 3);
 
+    cy.get('@search').type('bulba');
     cy.intercept('/pokemon-search/api/1', { fixture: 'bulbasaur' }).as('bulba-fixture');
     cy.get('[data-test="results"] a').first().click();
-
+    cy.contains('Bulbafixture');
   });
 
-  it.only('should link to the correct pokémon', () => {
+  it('should link to the correct pokémon', () => {
     cy.intercept('/pokemon-search/api/1').as('bulba-details')
     cy.get('@search').type('bulba');
     cy.get('[data-test="results"] a').as('result').invoke('text').should('equal', 'Bulbasaur');
@@ -58,7 +61,15 @@ describe('Pokémon Search', () => {
     })
   });
 
-  it('should persist the query parameter in the link to a pokémon', () => {});
+  it.only('should persist the query parameter in the link to a pokémon', () => {
+    cy.intercept('/pokemon-search/api?*', {pokemon}).as('stubbed-api');
+
+    cy.get('@search').type('lol');
+    cy.wait('@stubbed-api')
+    cy.get('[data-test="result"] a').each($el => {
+      expect($el.attr('href')).to.contain('name=lol')
+    });
+  });
 
   it('should bring you to the route for the correct pokémon', () => {});
 
