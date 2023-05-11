@@ -21,7 +21,13 @@ describe('Signing in with a seeded database', () => {
     cy.location('pathname').should('contain', '/echo-chamber/posts');
   });
 
-  it('should set a cookie', () => {});
+  it('should set a cookie', () => {
+    cy.getCookie('jwt').then((cookie) => {
+      const jwt = cookie.value;
+      const payload = decodeToken(jwt);
+      expect(payload.email).to.equal(user.email);
+    });
+  });
 });
 
 describe('Setting the cookie', () => {
