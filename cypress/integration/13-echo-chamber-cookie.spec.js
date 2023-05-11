@@ -34,13 +34,16 @@ describe('Setting the cookie', () => {
   beforeEach(() => {
     cy.task('seed');
     cy.visit('/echo-chamber/sign-in');
+    cy.signIn(user);
   });
 
-  it.skip('should be able to log in', () => {
+  it('should be able to log in', () => {
     cy.location('pathname').should('contain', '/echo-chamber/posts');
   });
 
-  it('show that user on the page', () => {});
+  it('show that user on the page', () => {
+    cy.contains(user.email);
+  });
 });
 
 describe('Setting the cookie with real data', () => {
